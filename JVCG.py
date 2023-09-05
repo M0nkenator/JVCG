@@ -1,0 +1,130 @@
+import random
+
+# Dictionary of verbs and their dictionary forms in Romanized letters
+verbs = {
+    "suru": ("to do", "suru", "iru"),
+    "aru": ("to exist", "aru", "u"),
+    "iru": ("to exist (animate)", "iru", "ru"),
+    "iku": ("to go", "iku", "ku"),
+    "kuru": ("to come", "kuru", "iru"),
+    "taberu": ("to eat", "taberu", "ru"),
+    "miru": ("to see", "miru", "ru"),
+    "kiku": ("to ask/listen", "kiku", "ku"),
+    "iu": ("to say", "iu", "u"),
+    "motsu": ("to hold", "motsu", "tsu"),
+    "naru": ("to become", "naru", "u"),
+    "deru": ("to go out", "deru", "ru"),
+    "tsukau": ("to use", "tsukau", "u"),
+    "shiru": ("to know", "shiru", "ru"),
+    "au": ("to meet", "au", "u"),
+    "matsu": ("to wait", "matsu", "tsu"),
+    "benkyou suru": ("to study", "benkyou suru", "suru"),
+    "tsukuru": ("to make", "tsukuru", "ru"),
+    "kangaeru": ("to think", "kangaeru", "ru"),
+    "kau": ("to buy", "kau", "u"),
+    "motteiku": ("to bring", "motteiku", "ku"),
+    "morau": ("to receive", "morau", "u"),
+    "tsukatteiru": ("to be using", "tsukatteiru", "ru"),
+    "neru": ("to sleep", "neru", "ru"),
+    "hairu": ("to enter", "hairu", "ru"),
+    "shitteiru": ("to know (have knowledge)", "shitteiru", "ru"),
+    "mieru": ("to be visible", "mieru", "ru"),
+    "ageru": ("to raise/give", "ageru", "ru"),
+    "toru": ("to take", "toru", "ru"),
+    "hashiru": ("to run", "hashiru", "ru"),
+    "yaru": ("to do (casual)", "yaru", "ru"),
+    "itteiru": ("to be saying", "itteiru", "ru"),
+    "kiru": ("to wear", "kiru", "ru"),
+    "dekakeru": ("to go out (for fun)", "dekakeru", "ru"),
+    "itteiru": ("to be going", "itteiru", "ru"),
+    "kaeru": ("to return", "kaeru", "ru"),
+    "ireru": ("to put in", "ireru", "ru"),
+    "suwaru": ("to sit", "suwaru", "ru"),
+    "miseru": ("to show", "miseru", "ru"),
+    "dasu": ("to take out", "dasu", "ru"),
+    "oshieru": ("to teach", "oshieru", "ru"),
+    "yomu": ("to read", "yomu", "u"),
+    "tsukeru": ("to attach/turn on", "tsukeru", "ru"),
+    "shitteiru (casual)": ("to know (casual)", "shitteiru (casual)", "ru"),
+    "yatteiniru": ("to be doing", "yatteiniru", "ru"),
+    "hajimeru": ("to begin/start", "hajimeru", "ru"),
+    "tsukutteiru": ("to be making", "tsukutteiru", "ru"),
+    "aruku": ("to walk", "aruku", "ku"),
+    "kaku": ("to write", "kaku", "ku"),
+    "yameru": ("to quit", "yameru", "ru"),
+    "shinu": ("to die", "shinu", "nu"),
+    "mottekuru": ("to bring", "mottekuru", "ku"),
+    "kiiteiru": ("to be asking/listening", "kiiteiru", "ru"),
+    "tobu": ("to fly", "tobu", "bu"),
+    "neiteiru": ("to be sleeping", "neiteiru", "ru"),
+}
+
+# List of verb forms
+forms = ["present affirmative", "past affirmative", "present negative", "past negative"]
+
+def generate_question():
+    # Randomly select a verb and form
+    verb, (meaning, romanized, ending) = random.choice(list(verbs.items()))
+    form = random.choice(forms)
+    
+    # Display the question
+    print(f"Conjugate the verb '{romanized}' ({meaning} / {verb}) in the {form} form:")
+    
+    # Return the correct answer in Romanized letters
+    return verb, form, ending
+
+def main():
+    score = 0
+    num_questions = 5
+    
+    print("Welcome to the Japanese Verb Conjugation Game!")
+    print("You'll be given a verb in Romanized letters and a form, and you need to provide the correct conjugation.")
+    
+    for _ in range(num_questions):
+        verb, form, ending = generate_question()
+        answer = input("Your answer in Romanized letters: ")
+        
+        # Check if the answer is correct
+        correct_answer = conjugate_verb(verb, form, ending)
+        if answer == correct_answer:
+            print("Correct!\n")
+            score += 1
+        else:
+            print(f"Sorry, the correct answer is: {correct_answer}\n")
+    
+    print(f"Game Over! Your score: {score}/{num_questions}")
+
+def conjugate_verb(verb, form, ending):
+    # Define conjugation rules based on verb ending
+    if form == "present affirmative":
+        return verb
+    elif form == "past affirmative":
+        if verb.endswith("(irregular)"):
+            return verb[:-11] + "mashita"
+        elif ending == "ru":
+            return verb[:-2] + "ta"
+        elif ending == "u":
+            return verb[:-1] + "ta"
+        else:
+            return verb + "ta"
+    elif form == "present negative":
+        if verb.endswith("(irregular)"):
+            return verb[:-11] + "masen"
+        elif ending == "ru":
+            return verb[:-2] + "nai"
+        elif ending == "u":
+            return verb[:-1] + "nai"
+        else:
+            return verb + "nai"
+    elif form == "past negative":
+        if verb.endswith("(irregular)"):
+            return verb[:-11] + "masen deshita"
+        elif ending == "ru":
+            return verb[:-2] + "nakatta"
+        elif ending == "u":
+            return verb[:-1] + "nakatta"
+        else:
+            return verb + "nakatta"
+
+if __name__ == "__main__":
+    main()
